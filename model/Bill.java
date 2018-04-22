@@ -77,7 +77,6 @@ public class Bill extends CompositeOrder {
 		return actualOrder==null && order.isEmpty()==false;
 	}
 
-	//return always false
 	@Override
 	public boolean orderEmpty() {
 		if(actualOrder!=null)
