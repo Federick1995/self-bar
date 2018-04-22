@@ -31,13 +31,14 @@ public class Order extends CompositeOrder {
         return description.toString();
     }
 
-	@Override
-	public void confirmOrder() {
-		// TODO Auto-generated method stub
-	}
 
 	@Override
 	public Stack<Product> getProduct() {
 		return product;
+	}
+
+	@Override
+	public boolean orderEmpty() {
+		return product.isEmpty();
 	}
 }

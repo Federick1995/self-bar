@@ -7,7 +7,6 @@ import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
-import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
@@ -99,10 +98,11 @@ public class FormOrdine extends JFrame {
                 					 { "", "Sambuca: 1,10"}};
 		Object columnNamesCoffee[] = { "Miscele caffe'", "Aggiunte"}; //nome colonne
 		JTable tCoffee = new JTable(rowDataCoffee,columnNamesCoffee);	
+		tCoffee.setEnabled(false);
 		modifyTable(tCoffee);
 		
 		Object rowDataDrink[][] = { { "Martini: 5,00", "Soda: 1,50"},
-                					{ "Analcolico: 3.,0", "Aperitivo: 0,50"}};
+                					{ "Analcolico: 3,0", "Aperitivo: 2,00"}};
 		Object columnNamesDrink[] = { "Drink", "Aggiunte"};
 		JTable tDrink = new JTable(rowDataDrink,columnNamesDrink);
 		tDrink.setEnabled(false);
@@ -153,31 +153,25 @@ public class FormOrdine extends JFrame {
 		
 		JButton addOrderButton = new JButton("Aggiungi prodotto");
 		addOrderButton.setPreferredSize(new Dimension(150, 50));
-		addOrderButton.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				Product p;
-				if(productName.equals("Coffee")) {
-					Coffe[] coffeArray = {new CoffeArabica(), new CoffeRobusta()};
-					c =  coffeArray[typeIndex];
-					Coffe[] coffeDec = {c, new CoffeWithMilkDec(c), new CoffeWithCreamDec(c), new CoffeWithSanbucaDec(c)};
-					c = coffeDec[addIndex];
-					p = c;
-				} else {
-					Drink[] drinkArray = {new Martini(), new Analcolico()};
-					d = drinkArray[typeIndex];
-					Drink[] drinkDec = {d,new DrinkWithSodaDec(d), new DrinkWithAppetizerDec(d)}; 
-					d = drinkDec[addIndex];
-					p = d;
-				}
-				for (int i=0; i <= qtaIndex; i++) {
-					controller.addProduct(p);
-				}
-				
+		addOrderButton.addActionListener(e -> {
+			Product p;
+			if(productName.equals("Coffee")) {
+				Coffe[] coffeArray = {new CoffeArabica(), new CoffeRobusta()};
+				c =  coffeArray[typeIndex];
+				Coffe[] coffeDec = {c, new CoffeWithMilkDec(c), new CoffeWithCreamDec(c), new CoffeWithSanbucaDec(c)};
+				c = coffeDec[addIndex];
+				p = c;
+			} else {
+				Drink[] drinkArray = {new Martini(), new Analcolico()};
+				d = drinkArray[typeIndex];
+				Drink[] drinkDec = {d,new DrinkWithSodaDec(d), new DrinkWithAppetizerDec(d)}; 
+				d = drinkDec[addIndex];
+				p = d;
 			}
-			
-		});  
+			for (int i=0; i <= qtaIndex; i++) {
+				controller.addProduct(p);
+			}
+		});
 		gbc.gridx = 0;
 		gbc.gridy = 4;
 		gbc.fill = GridBagConstraints.NONE;
@@ -194,7 +188,8 @@ public class FormOrdine extends JFrame {
 		panel.add(deleteOrderButton, gbc);
 
 		deleteOrderButton.addActionListener(e -> {
-			if(controller.getProduct()!=null && !controller.getProduct().isEmpty()) {
+			//!controller.getProduct().isEmpty()
+			if(controller.getProduct()!=null && !controller.orderEmpty()) {
 				FormDeleteProduct formDelete = new FormDeleteProduct(controller);
 				formDelete.pack();
 				formDelete.setLocationRelativeTo(null);

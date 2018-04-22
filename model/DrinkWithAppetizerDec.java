@@ -9,12 +9,12 @@ public class DrinkWithAppetizerDec extends DecoratorDrink{
 	
 	@Override
 	public double getPrice() {
-		return super.getPrice()+0.50;
+		return super.getPrice()+2.00;
 	}
 	
 	@Override
 	public String toString() {
-		return super.toString()+String.format(" con aperitivo (+%.2f)", 0.50);
+		return super.toString()+String.format(" con aperitivo (+%.2f)", 2.00);
 	}
 
 	

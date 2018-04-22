@@ -8,10 +8,10 @@ public abstract class CompositeOrder {
 	 * After this method, actual order is null.
 	 */
 	private double totalOrder = 0.0;
-	public abstract void confirmOrder();
     public abstract void addProduct(Product p);
     public abstract void removeProduct(Product p);
     public abstract Stack<Product> getProduct();
+    public abstract boolean orderEmpty(); 
     
     public void clearTotalPrice() {
     	this.totalOrder = 0.0;

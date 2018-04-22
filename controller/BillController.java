@@ -24,6 +24,7 @@ public class BillController {
 		bill.notifyObservers();
 	}
 	
+	//make order empty method in composite order
 	public void sendOrder() throws SendOrderException {
 		if(bill.getProduct()!=null && !bill.getProduct().isEmpty()) {
 			bill.confirmOrder();
@@ -48,6 +49,10 @@ public class BillController {
 	
 	public boolean canPay() {
 		return bill.canPay();
+	}
+	
+	public boolean orderEmpty() {
+		return bill.orderEmpty();
 	}
 
 }

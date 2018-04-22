@@ -11,9 +11,7 @@ public class Bill extends CompositeOrder {
     	this.ps = ps;
     }
     
-//    public void computeTotal() {
-//    	ps.pay(getTotalPrice());
-//    }
+
 
     @Override
     public void addProduct(Product p) {
@@ -27,12 +25,11 @@ public class Bill extends CompositeOrder {
     public void removeProduct(Product p) {
 		actualOrder.removeProduct(p);
 		modifyTotalOrder(p.getPrice()*-1);
-		if(actualOrder.getProduct().isEmpty()) {
+		if(actualOrder.orderEmpty()) {
 			actualOrder = null;
 		}
     }
 
-	@Override
 	public void confirmOrder() {
 		order.add(actualOrder);
 		actualOrder = null;
@@ -78,6 +75,14 @@ public class Bill extends CompositeOrder {
 	
 	public boolean canPay() {
 		return actualOrder==null && order.isEmpty()==false;
+	}
+
+	//return always false
+	@Override
+	public boolean orderEmpty() {
+		if(actualOrder!=null)
+			return actualOrder.orderEmpty();
+		return false;
 	}
 	
 }

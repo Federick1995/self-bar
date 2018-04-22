@@ -50,5 +50,9 @@ public class ObservableModelBill extends Observable {
 	public boolean canPay() {
 		return bill.canPay();
 	}
+	
+	public boolean orderEmpty() {
+		return bill.orderEmpty();
+	}
 
 }

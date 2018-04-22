@@ -23,7 +23,7 @@ public class DrinkDecoratedTest {
 	
 	@Test
 	public void martiniWithAppetizerPriceTest() {
-		double price = 5.50;
+		double price = 7.00;
 		Drink d = new DrinkWithAppetizerDec(ma);
 		assertEquals(price, d.getPrice(), 0.001);
 	}
@@ -37,7 +37,7 @@ public class DrinkDecoratedTest {
 	
 	@Test
 	public void martiniWithAppetizerStringTest() {
-		String desc = "Martini: 5,00 con aperitivo (+0,50)";
+		String desc = "Martini: 5,00 con aperitivo (+2,00)";
 		Drink d = new DrinkWithAppetizerDec(ma);
 		assertEquals(desc, d.toString());
 	}
@@ -51,7 +51,7 @@ public class DrinkDecoratedTest {
 	
 	@Test
 	public void analcolicoWithAppetizerPriceTest() {
-		double price = 4.0;
+		double price = 5.50;
 		Drink d = new DrinkWithAppetizerDec(an);
 		assertEquals(price, d.getPrice(), 0.001);
 	}
@@ -65,7 +65,7 @@ public class DrinkDecoratedTest {
 	
 	@Test
 	public void analcolicoWithAppetizerStringTest() {
-		String desc = "Analcolico: 3,50 con aperitivo (+0,50)";
+		String desc = "Analcolico: 3,50 con aperitivo (+2,00)";
 		Drink d = new DrinkWithAppetizerDec(an);
 		assertEquals(desc, d.toString());
 	}

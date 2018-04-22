@@ -24,23 +24,16 @@ import model.Product;
 
 
 public class BillTest {
-	
-	
-//	@Test
-//	public void billEmptyOrderDescTest() {
-//		Bill b = new Bill();
-//		String desc = "Ordine 1:\n"+"------------------\n"+"TOTAL BILL: 0,00";
-//		assertEquals(desc, b.toString());
-//	}
-	
-	
+	private static Coffe ca = new CoffeArabica();
+	private static Coffe cr = new CoffeRobusta();
+	private static Drink m = new Martini();
+	private static Drink a = new Analcolico();
+		
 	@Test
 	public void billBaseStringTest() {
-		Coffe c = new CoffeArabica();
-		Drink d = new Martini();
+		Coffe c = new CoffeWithMilkDec(ca);
+		Drink d = new DrinkWithSodaDec(m);
 		Bill b = new Bill();
-		c = new CoffeWithMilkDec(c);
-		d = new DrinkWithSodaDec(d);
 		b.addProduct(c);
 		b.addProduct(d);
 		b.confirmOrder();
@@ -51,11 +44,9 @@ public class BillTest {
 	
 	@Test
 	public void billDecPriceTest() {
-		Coffe c = new CoffeArabica();
-		Drink d = new Martini();
+		Coffe c = new CoffeWithMilkDec(ca);
+		Drink d =  new DrinkWithSodaDec(m);
 		Bill b = new Bill();
-		c = new CoffeWithMilkDec(c);
-		d = new DrinkWithSodaDec(d);
 		b.addProduct(c);
 		b.addProduct(d);
 		b.confirmOrder();
@@ -65,39 +56,33 @@ public class BillTest {
 	
 	@Test
 	public void billRemovePriceTest() {
-		Coffe c = new CoffeArabica();
-		Drink d = new Martini();
 		Bill b = new Bill();
-		b.addProduct(c);
-		b.addProduct(d);
-		b.removeProduct(d);
-		b.removeProduct(c);
+		b.addProduct(ca);
+		b.addProduct(m);
+		b.removeProduct(m);
+		b.removeProduct(ca);
 		b.confirmOrder();
 		assertEquals(0.0, b.getTotalPrice(), 0.001);
 	}
 	
-	//remove act only on actual order (order created after confirm..)
+	//remove acts only on actual order (order created after confirm..)
 	@Test(expected = NullPointerException.class)
 	public void billRemoveAfterConfirmPriceTest() {
-		Coffe c = new CoffeArabica();
-		Drink d = new Martini();
 		Bill b = new Bill();
-		b.addProduct(c);
-		b.addProduct(d);
+		b.addProduct(ca);
+		b.addProduct(m);
 		b.confirmOrder();
-		b.removeProduct(d);
+		b.removeProduct(m);
 	}
 	
 	@Test
 	public void billRemoveAfterAddConfirmPriceTest() {
-		Coffe c = new CoffeArabica();
-		Drink d = new Martini();
 		Bill b = new Bill();
-		b.addProduct(c);
-		b.addProduct(d);
+		b.addProduct(ca);
+		b.addProduct(m);
 		b.confirmOrder();
-		double total = d.getPrice()+c.getPrice();
-		Coffe cr = new CoffeWithCreamDec(new CoffeArabica());
+		double total = m.getPrice()+ca.getPrice();
+		Coffe cr = new CoffeWithCreamDec(ca);
 		b.addProduct(cr);
 		b.removeProduct(cr);
 		assertEquals(total, b.getTotalPrice(), 0.001);
@@ -111,44 +96,36 @@ public class BillTest {
 	
 	@Test
 	public void billGetProdutAfterAddTest() {
-		Drink m = new Martini();
-		Coffe c = new CoffeArabica();
-		Drink a = new Analcolico();
 		Stack<Product> l = new Stack<Product>();
 		l.add(m);
-		l.add(c);
+		l.add(ca);
 		Bill b = new Bill();
 		b.addProduct(a);
 		b.confirmOrder();
 		b.addProduct(m);
-		b.addProduct(c);
+		b.addProduct(ca);
 		assertEquals(l, b.getProduct());
 	}
 	
 	@Test(expected = NullPointerException.class)
 	public void billRemoveNullProduct() {
-		Drink m = new Martini();
-		Coffe c = new CoffeRobusta();
 		Stack<Product> l = new Stack<Product>();
 		Bill b = new Bill();
 		b.addProduct(m);
 		b.confirmOrder();
-		b.addProduct(c);
-		l.add(c);
+		b.addProduct(cr);
+		l.add(cr);
 		b.removeProduct(null);
 	}
 	
 	@Test
 	public void billAddAfterConfirmDescTest() {
-		Coffe c = new CoffeArabica();
-		Drink d = new Martini();
+		Coffe c = new CoffeWithMilkDec(ca);
+		Drink d = new DrinkWithSodaDec(m);
 		Bill b = new Bill();
-		c = new CoffeWithMilkDec(c);
-		d = new DrinkWithSodaDec(d);
 		b.addProduct(c);
 		b.addProduct(d);
 		b.confirmOrder();
-		Coffe cr = new CoffeRobusta();
 		b.addProduct(cr);
 		String desc = "Ordine 1:\n"+c.toString()+'\n'+d.toString()+'\n'+"------------------\n"+"Ordine 2:\n"+
 				cr.toString()+'\n'+"------------------\n"+"TOTALE: "+String.format("%.2f", b.getTotalPrice());
@@ -158,8 +135,6 @@ public class BillTest {
 	@Test
 	public void billPayWithCashDescTest() {
 		Bill b = new Bill();
-		Product ca = new CoffeArabica();
-		Product cr = new CoffeRobusta();
 		b.addProduct(ca);
 		b.addProduct(cr);
 		b.confirmOrder();
@@ -174,8 +149,6 @@ public class BillTest {
 	@Test
 	public void billPayWithCreditCardDescTest() {
 		Bill b = new Bill();
-		Product ca = new CoffeArabica();
-		Product cr = new CoffeRobusta();
 		b.addProduct(ca);
 		b.addProduct(cr);
 		b.confirmOrder();
@@ -190,8 +163,6 @@ public class BillTest {
 	@Test
 	public void billPayWithDebitCardDescTest() {
 		Bill b = new Bill();
-		Product ca = new CoffeArabica();
-		Product cr = new CoffeRobusta();
 		b.addProduct(ca);
 		b.addProduct(cr);
 		b.confirmOrder();
@@ -211,7 +182,6 @@ public class BillTest {
 	
 	@Test
 	public void billCanPayTest() {
-		Coffe ca = new CoffeArabica();
 		Bill b = new Bill();
 		b.addProduct(ca);
 		b.confirmOrder();
@@ -220,7 +190,6 @@ public class BillTest {
 	
 	@Test
 	public void billCanPayAfterAddTest() {
-		Coffe ca = new CoffeArabica();
 		Bill b = new Bill();
 		b.addProduct(ca);
 		b.confirmOrder();
@@ -230,7 +199,6 @@ public class BillTest {
 	
 	@Test
 	public void billDescAfterPrint() {
-		Coffe ca = new CoffeArabica();
 		Bill b = new Bill();
 		b.addProduct(ca);
 		b.confirmOrder();
@@ -238,4 +206,18 @@ public class BillTest {
 		assertEquals("", b.toString());
 	}
 	
+	@Test
+	public void orderEmptyTest() {
+		Bill b = new Bill();
+		assertEquals(false, b.orderEmpty());
+	}
+	
+	@Test
+	public void orderEmptyAfterAddTest() {
+		Bill b = new Bill();
+		b.addProduct(new CoffeArabica());
+		assertEquals(false, b.orderEmpty());
+	}
+	
+
 }

@@ -18,5 +18,6 @@ public class PaymentCreditCardTest {
 		String desc = String.format("Pagamento di: %.2f euro con carta di credito", total);
 		assertEquals(desc, ps.pay(5));
 	}
+	
 
 }
